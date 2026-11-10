@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>QtGraphicsTesterForm.qml</file>
+    </qresource>
+</RCC>
