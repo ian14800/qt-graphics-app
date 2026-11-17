@@ -50,6 +50,7 @@ public:
     Q_INVOKABLE bool updateAllGraphics(const QString& updateId, int count);
     Q_INVOKABLE bool moveGraphic(double x, double y);
     Q_INVOKABLE bool moveCamera(double x, double y);
+    Q_INVOKABLE bool selectGraphics(int count);
     Q_INVOKABLE int graphicsCount() const;
     Q_INVOKABLE bool spinGraphics(const QString&);
     Q_INVOKABLE QString readRendererJson(QString file_path);

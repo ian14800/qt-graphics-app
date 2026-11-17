@@ -180,6 +180,19 @@ Item {
             }
         }
 
+        Row {
+            spacing: 6
+
+
+            Button {
+                text: "Select graphics"
+                onClicked: {
+                    tester.selectGraphics(10);
+                }
+            }
+
+        }
+
     }
 
     Rectangle {

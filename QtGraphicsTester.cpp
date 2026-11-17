@@ -301,9 +301,12 @@ bool QtGraphicsTester::applyCurrentRendererToOverlay()
                 // Pushpins
                 // "https://www.arcgis.com/home/item.html?id=37da62fcdb854f8e8305c79e8b5023dc")),
                 // Government
-                "https://www.arcgis.com/home/item.html?id=6eeef46c653b40c9bda04f9bed913b70")),
+                // "https://www.arcgis.com/home/item.html?id=6eeef46c653b40c9bda04f9bed913b70")),
                 // Animals
                 // "https://www.arcgis.com/home/item.html?id=1fbb242c54e4415d9b8e8a343ca7a9d0")),
+                // Low poly vegetation (models)
+                "https://www.arcgis.com/home/item.html?id=2b17eda54a204cd6b042fc30cee27f3e"
+            )),
             this);
 
         // No filters: search the entire style.
@@ -938,6 +941,43 @@ bool QtGraphicsTester::moveCamera(double x, double y)
     const Camera camera = m_sceneView->currentViewpointCamera();
     const Point location(x, y, camera.location().z(), SpatialReference::wgs84());
     m_sceneView->setViewpointCameraAndWait(camera.moveTo(location));
+    updateDiagnostics();
+    return true;
+}
+
+bool QtGraphicsTester::selectGraphics(int count)
+{
+    if (!m_sceneView)
+    {
+        qWarning() << "No scene view attached.";
+        return false;
+    }
+
+    GraphicsOverlayListModel* overlays = m_sceneView->graphicsOverlays();
+    if (!overlays || overlays->isEmpty())
+    {
+        qWarning() << "No graphics overlays available.";
+        return false;
+    }
+
+    GraphicsOverlay* overlay = overlays->at(0);
+    if (!overlay || !overlay->graphics() || overlay->graphics()->isEmpty())
+    {
+        qWarning() << "No graphics to select.";
+        return false;
+    }
+
+    const int selectCount = qMin(count, overlay->graphics()->size());
+    for (int i = 0; i < selectCount; ++i)
+    {
+        Graphic* graphic = overlay->graphics()->at(i);
+        if (graphic)
+        {
+            graphic->setSelected(true);
+        }
+    }
+
+    requestOverlayRedraw();
     updateDiagnostics();
     return true;
 }
